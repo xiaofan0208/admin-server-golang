@@ -1,6 +1,9 @@
 package main 
 
-import "github.com/gin-gonic/gin"
+import  (
+    "github.com/gin-gonic/gin"
+	"admin-server-golang/base"
+)
 
 
 func main(){
@@ -10,5 +13,7 @@ func main(){
             "message": "pong",
         })
     })
-    r.Run() // listen and serve on 0.0.0.0:8080
+
+    port := base.AppConfig.String("", "httpport")
+    r.Run( ":" + port )  
 }
