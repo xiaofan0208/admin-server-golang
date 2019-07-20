@@ -1,0 +1,149 @@
+{{define "login_footerjs"}}
+
+<script src="/static/assets/js/jquery-2.1.4.min.js"></script>
+<script src="/static/assets/js/bootstrap.min.js"></script>
+<script src="/static/assets/js/bootstrapValidator.min.js"></script>
+
+<script>
+    $(function(){
+        $('#loginForm').bootstrapValidator({
+            message: 'This value is not valid',
+            //提供输入验证图标提示
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+ 
+            fields: {
+                username : {
+                    message: '用户名验证失败',
+                    validators: {
+                        notEmpty: {
+                            message: '用户名不能为空'
+                        },
+                        stringLength: {
+                            min: 6,
+                            max: 18,
+                            message: '用户名长度必须在6到18位之间'
+                        },
+                        regexp: {
+                            regexp: /^[a-zA-Z0-9_]+$/,
+                            message: '用户名只能包含大写、小写、数字和下划线'
+                        }
+                    }
+                },
+                password : {
+                    message: '密码验证失败',
+                    validators: {
+                        notEmpty: {
+                            message: '密码不能为空'
+                        },
+                        stringLength: {
+                            min: 6,
+                            max: 18,
+                            message: '密码长度必须在6到18位之间'
+                        },
+                        regexp: {
+                            regexp: /^[a-zA-Z0-9_]+$/,
+                            message: '密码只能包含大写、小写、数字和下划线'
+                        }
+                    }
+                },
+            },
+        }).on('success.form.bv', function(e) {//点击提交之后
+            e.preventDefault();
+            var $form = $(e.target);
+            var bv = $form.data('bootstrapValidator');
+
+            console.log("----formUrl = " + {{.formUrl}} )
+            console.log("----$form.serialize() = " + JSON.stringify( $form.serialize() ) )
+
+            // Use Ajax to submit form data 提交至form标签中的action，result自定义
+            $.post( {{.formUrl}}, $form.serialize(), function(result) {
+                //恢复submit按钮disable状态。
+                $('#loginForm').bootstrapValidator('disableSubmitButtons', false);
+                    
+                console.log("----result = " + JSON.stringify(result) )
+                
+            });
+
+           
+        })
+
+    })
+</script>
+
+
+<!-- <script type="text/javascript"> 
+  
+    //获取指定form中的所有的<input>对象  
+    function getElements(formId) {  
+      var form = document.getElementById(formId);  
+      var elements = new Array();  
+      var tagElements = form.getElementsByTagName('input');  
+      for (var j = 0; j < tagElements.length; j++){ 
+         elements.push(tagElements[j]); 
+      
+      } 
+      return elements;  
+    }  
+      
+    //获取单个input中的【name,value】数组 
+    function inputSelector(element) {  
+     if (element.checked)  
+       return [element.name, element.value];  
+    }  
+        
+    function input(element) {  
+      switch (element.type.toLowerCase()) {  
+       case 'submit':  
+       case 'hidden':  
+       case 'password':  
+       case 'text':  
+        return [element.name, element.value];  
+       case 'checkbox':  
+       case 'radio':  
+        return inputSelector(element);  
+      }  
+      return false;  
+    }  
+      
+    //组合URL 
+    function serializeElement(element) {  
+      var method = element.tagName.toLowerCase();  
+      var parameter = input(element);  
+       
+      if (parameter) {  
+       var key = encodeURIComponent(parameter[0]);  
+       if (key.length == 0) return;  
+       
+       if (parameter[1].constructor != Array)  
+        parameter[1] = [parameter[1]];  
+          
+       var values = parameter[1];  
+       var results = [];  
+       for (var i=0; i<values.length; i++) {  
+        results.push(key + '=' + encodeURIComponent(values[i]));  
+       }  
+       return results.join('&');  
+      }  
+     }  
+      
+    //调用方法   
+    function serializeForm(formId) {  
+      var elements = getElements(formId);  
+      var queryComponents = new Array();  
+       
+      for (var i = 0; i < elements.length; i++) {  
+       var queryComponent = serializeElement(elements[i]);  
+       if (queryComponent)  
+        queryComponents.push(queryComponent);  
+      }  
+       
+      return queryComponents.join('&'); 
+    }  
+      
+    </script> -->
+
+{{end}}
