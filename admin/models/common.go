@@ -17,11 +17,3 @@ type JsonResult struct {
 	Obj  interface{}          `json:"obj"`
 }
 
-
-func ResponseResult(code JsonResultCode ,msg  string ,	obj  interface{}   ){
-	// data := &JsonResult{
-	// 	Code : code ,
-	// 	Msg :  err.Error() ,
-	// 	Obj : nil,
-	//  }
-}
