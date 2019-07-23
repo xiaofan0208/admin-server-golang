@@ -17,3 +17,7 @@ type JsonResult struct {
 	Obj  interface{}          `json:"obj"`
 }
 
+const (
+	Status_Normal = 1  // 正常
+	Status_Delete = 2  // 删除
+)

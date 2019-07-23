@@ -4,8 +4,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"admin-server-golang/admin/models"
-	"encoding/json"
-	"fmt"
+	// "encoding/json"
+	// "fmt"
 	"admin-server-golang/helper"
 	"strings"
 )
@@ -57,11 +57,6 @@ func (ctl *LoginController) Register (c *gin.Context) {
 	password := strings.TrimSpace( c.PostForm("password") )
 	repassword := strings.TrimSpace( c.PostForm("repassword") )
 
-	fmt.Println("------------email = " , email  )
-	fmt.Println("------------username = " , username  )
-	fmt.Println("------------password = " , password  )
-	fmt.Println("------------repassword = " , repassword  )
-	
 	if len(email) == 0 {
 		ctl.jsonResult(c , models.JRCodeFailed  ,"邮箱不正确" ,  "")
 		return	
@@ -81,11 +76,18 @@ func (ctl *LoginController) Register (c *gin.Context) {
 		Username : username,
 		Password : password,
 	}
-	user ,_ := models.CreateBackendUser(&record)
 
-	dd ,_ := json.Marshal(user)
-	fmt.Println("---------user = " ,string(dd) )
+	user1 , _ := models.GetBackendUser(&record)
+	if user1 != nil {
+		ctl.jsonResult(c , models.JRCodeFailed  ,"用户名已存在" ,  "")
+		return
+	}
 
+	_ ,err := models.CreateBackendUser(&record)
+	if err != nil {
+		ctl.jsonResult(c , models.JRCodeFailed  ,"注册失败" ,  "")
+		return
+	}
 	ctl.jsonResult(c , models.JRCodeSucc  ,"登录成功" ,  "")
 	return
 }

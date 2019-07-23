@@ -24,13 +24,15 @@ func(u BackendUser) TableName() string {
 }
 
 //查询管理员
-func  GetBackendUser(record *BackendUser) (user BackendUser){
+func  GetBackendUser(record *BackendUser) ( *BackendUser , error){
+	user := BackendUser{}
 	if err := db.DB.Where("username = ?" ,record.Username).First(&user).Error ;  err != nil{
 		if err != gorm.ErrRecordNotFound {
 			helper.CheckErr(err)
 		}	
+		return nil,err
 	}
-	return user
+	return &user , nil
 }
 
 func  GetBackendUserById(id int) (*BackendUser ,error ){
@@ -57,6 +59,8 @@ func CheckBackendUserByName(username , password string) (*BackendUser ,error ){
 
 // 创建
 func CreateBackendUser(record *BackendUser) (*BackendUser ,error ) {
+	record.Created = helper.GetMillisecond()
+	record.Status = Status_Normal
 	if err := db.DB.Create(&record).Error ;  err != nil {
 		helper.CheckErr(err)
 		return nil,err
