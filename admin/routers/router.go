@@ -23,10 +23,10 @@ func InitRouters(router *gin.Engine) {
 		v1.POST("/login", loginCtls.DoLogin ) 
 		v1.POST("/register", loginCtls.Register ) 
 
-		v1.Use(policies.Authorize())
+		v1.Use(policies.Authorize(router))
 		
 		v1.GET("/index", indexCtls.Index )  
-		
+		v1.GET("/logout", indexCtls.Logout )  
  
     }
 

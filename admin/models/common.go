@@ -1,5 +1,9 @@
 package models
 
+import(
+	"encoding/gob"
+)
+
 type JsonResultCode int
 
 const (
@@ -21,3 +25,8 @@ const (
 	Status_Normal = 1  // 正常
 	Status_Delete = 2  // 删除
 )
+
+
+func init(){
+	gob.Register(&BackendUser{})
+}

@@ -2,14 +2,27 @@ package controllers
 
 import (
 	"github.com/gin-gonic/gin"
-	"net/http"
+	"github.com/gin-contrib/sessions"
+	// "net/http"
+	// "fmt"
 )
 
 type IndexController struct {
+	BaseController
 }
 
 func (ctl *IndexController) Index(c *gin.Context){
-	c.HTML(http.StatusOK, "admin/home/index.html", gin.H{
+	data := gin.H{
 		"Title" : "Index Page",
-	})
+	}
+	ctl.DrawHTML( c , "admin/home/index.html" , data)
+}  
+
+// 注销
+func (ctl *IndexController) Logout(c *gin.Context){
+	session := sessions.Default(c)
+	session.Set("BackendUser", nil)
+	session.Save()
+
+	ctl.Prepare(c)
 }
