@@ -15,8 +15,9 @@ type BackendUser struct {
 	Username    string `form:"username" json:"username" binding:"required"`
 	Password    string `form:"password" json:"password" binding:"required"`
 	RememberMe  bool   `form:"remember_me" json:"remember_me" `   // 是否记住 
+	IsAdmin     bool   `form:"is_admin" json:"is_admin" `         // 是否管理员 
 	Created     int64  `form:"created"  json:"created"`
-	Status      uint8  `form:"status" json:"status"`                           // 状态: 1:正常 2:删除
+	Status      uint8  `form:"status" json:"status"`              // 状态: 1:正常 2:删除
 }
 
 func(u BackendUser) TableName() string {
@@ -59,6 +60,7 @@ func CheckBackendUserByName(username , password string) (*BackendUser ,error ){
 
 // 创建
 func CreateBackendUser(record *BackendUser) (*BackendUser ,error ) {
+	record.Password = helper.String2md5(record.Password )
 	record.Created = helper.GetMillisecond()
 	record.Status = Status_Normal
 	if err := db.DB.Create(&record).Error ;  err != nil {

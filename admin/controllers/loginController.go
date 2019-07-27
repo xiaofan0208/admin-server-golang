@@ -70,7 +70,6 @@ func (ctl *LoginController) Register (c *gin.Context) {
 		return
 	}
 
-	password = helper.String2md5(password)
 	record := models.BackendUser{
 		Email : email,
 		Username : username,

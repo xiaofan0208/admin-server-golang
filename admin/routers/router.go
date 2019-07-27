@@ -8,6 +8,8 @@ import (
 	"github.com/gin-contrib/sessions/cookie"
 	"admin-server-golang/base"
 	"time"
+	"admin-server-golang/admin/models"
+	"admin-server-golang/admin/untils"
 )
 
 func InitRouters(router *gin.Engine) {
@@ -25,8 +27,8 @@ func InitRouters(router *gin.Engine) {
 
 		v1.Use(policies.Authorize(router))
 		
-		v1.GET("/index", indexCtls.Index )  
-		v1.GET("/logout", indexCtls.Logout )  
+		v1.GET("/index", indexCtls.Index )    // 首页
+		v1.GET("/logout", indexCtls.Logout )  // 注销
  
     }
 
@@ -42,4 +44,45 @@ func initSession(router *gin.Engine){
     })
 	router.Use(sessions.Sessions("mysession", store))
 
+}
+
+// 初始化管理员账号
+func InitAdmin(){
+	record := models.BackendUser{
+		Username : "admin",
+		Password : "123456",
+		IsAdmin  : true,
+	}
+	user1 , _ := models.GetBackendUser(&record)
+	if user1 != nil {
+		return
+	}
+	_ ,err := models.CreateBackendUser(&record)
+	if err != nil {
+
+	}
+}
+
+// 初始化菜单
+func InitMenus(){
+	// 系统管理
+	systemManage := &models.AdminMenus{ Name: "系统管理" , Type: models.MENU , Icon:"fa-adjust"  }
+	// 角色管理
+	roleManage :=  &models.AdminMenus{ Name: "角色管理" , Type: models.BUTTON , Icon:"fa-asterisk" , Url : "" }
+	// 菜单管理
+	menuManage :=  &models.AdminMenus{ Name: "菜单管理" , Type: models.BUTTON , Icon:"fa-bar-chart-o" , Url : "" }
+	permissionManage :=  &models.AdminMenus{ Name: "权限管理" , Type: models.BUTTON , Icon:"fa-beer" , Url : "" }
+
+	systemManage.Sons = []*models.AdminMenus{ roleManage , menuManage , permissionManage}
+
+
+	// 用户管理
+	usersManage := &models.AdminMenus{ Name: "用户管理" , Type: models.MENU , Icon:"fa-barcode"  }
+	personlmenuManage :=  &models.AdminMenus{ Name: "修改个人资料" , Type: models.BUTTON , Icon:"fa-flask" , Url : "" }
+	usersManage.Sons = []*models.AdminMenus{ personlmenuManage }
+
+	untils.RegisterMenu(systemManage)
+	untils.RegisterMenu(usersManage)	
+
+	untils.InitMenu()
 }

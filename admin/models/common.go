@@ -30,3 +30,9 @@ const (
 func init(){
 	gob.Register(&BackendUser{})
 }
+
+const (
+	PANEL  = 1
+	MENU   = 2
+	BUTTON = 3
+)
