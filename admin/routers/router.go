@@ -66,19 +66,19 @@ func InitAdmin(){
 // 初始化菜单
 func InitMenus(){
 	// 系统管理
-	systemManage := &models.AdminMenus{ Name: "系统管理" , Type: models.MENU , Icon:"fa-adjust"  }
+	systemManage := &models.AdminMenus{ Name: "系统管理" , Type: models.MENU , Icon:"menu-icon fa fa-adjust"  }
 	// 角色管理
-	roleManage :=  &models.AdminMenus{ Name: "角色管理" , Type: models.BUTTON , Icon:"fa-asterisk" , Url : "" }
+	roleManage :=  &models.AdminMenus{ Name: "角色管理" , Type: models.BUTTON , Icon:"menu-icon fa fa-asterisk" , Url : "" }
 	// 菜单管理
-	menuManage :=  &models.AdminMenus{ Name: "菜单管理" , Type: models.BUTTON , Icon:"fa-bar-chart-o" , Url : "" }
-	permissionManage :=  &models.AdminMenus{ Name: "权限管理" , Type: models.BUTTON , Icon:"fa-beer" , Url : "" }
+	menuManage :=  &models.AdminMenus{ Name: "菜单管理" , Type: models.BUTTON , Icon:"menu-icon fa fa-bar-chart-o" , Url : "" }
+	permissionManage :=  &models.AdminMenus{ Name: "权限管理" , Type: models.BUTTON , Icon:"menu-icon fa fa-beer" , Url : "" }
 
 	systemManage.Sons = []*models.AdminMenus{ roleManage , menuManage , permissionManage}
 
 
 	// 用户管理
-	usersManage := &models.AdminMenus{ Name: "用户管理" , Type: models.MENU , Icon:"fa-barcode"  }
-	personlmenuManage :=  &models.AdminMenus{ Name: "修改个人资料" , Type: models.BUTTON , Icon:"fa-flask" , Url : "" }
+	usersManage := &models.AdminMenus{ Name: "用户管理" , Type: models.MENU , Icon:"menu-icon fa fa-barcode"  }
+	personlmenuManage :=  &models.AdminMenus{ Name: "修改个人资料" , Type: models.BUTTON , Icon:"menu-icon fa fa-flask" , Url : "" }
 	usersManage.Sons = []*models.AdminMenus{ personlmenuManage }
 
 	untils.RegisterMenu(systemManage)

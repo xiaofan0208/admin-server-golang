@@ -31,6 +31,8 @@ func(ctl *BaseController) DrawHTML(cc *gin.Context , html string , data gin.H){
 
 	data["BackendUser"] = ctl.backendUser
 
+	data["Sidebar"] = ctl.GetAdminMenus()
+
 	cc.HTML(http.StatusOK, html, data )
 }
 
@@ -54,4 +56,34 @@ func(c *BaseController)  setBackendUser2Session(cc *gin.Context, userId int) err
 	session.Set("BackendUser", user)
 	session.Save()
 	return nil
+}
+
+
+
+func(ctl *BaseController) GetAdminMenus() (string){
+	var html string = ""
+	html += `<ul class='nav nav-list' style='top: 0px;'>
+				<li class='active'>
+					<a href='/admin/index'>
+                	<i class='menu-icon fa fa-tachometer'></i>
+                	<span class='menu-text'> Dashboard </span>
+           		 	</a>
+            		<b class='arrow'></b>
+        		</li>`
+
+	menus , _ := models.GetAllAdminMenus()
+	for _ , menu := range menus {
+
+		ctl.createHtml(html , menu)
+		if menu.Pid != 0 { // 存在子菜单
+
+		}
+	}
+
+	html += "</ul>"
+	return html
+}
+
+func(ctl *BaseController) createHtml(html  string, menu *models.AdminMenus ){
+
 }

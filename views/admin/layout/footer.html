@@ -1,5 +1,6 @@
 {{define "footer"}}
 
+{{template "MainContainerDown" .}}  
 
 <div class="footer">
         <div class="footer-inner">
@@ -29,7 +30,22 @@
 </html>
 
 
+<script src="/static/assets/js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript">
+    if('ontouchstart' in document.documentElement) document.write("<script src='/static/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+</script>
+<script src="/static/assets/js/bootstrap.min.js"></script>
+<script src="/static/assets/js/jquery-ui.custom.min.js"></script>
+<script src="/static/assets/js/jquery.ui.touch-punch.min.js"></script>
+<script src="/static/assets/js/jquery.easypiechart.min.js"></script>
+<script src="/static/assets/js/jquery.sparkline.index.min.js"></script>
+<script src="/static/assets/js/jquery.flot.min.js"></script>
+<script src="/static/assets/js/jquery.flot.pie.min.js"></script>
+<script src="/static/assets/js/jquery.flot.resize.min.js"></script>
 
+<!-- ace scripts -->
+<script src="/static/assets/js/ace-elements.min.js"></script>
+<script src="/static/assets/js/ace.min.js"></script>
 
 {{end}}
 
