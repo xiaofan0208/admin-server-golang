@@ -3,10 +3,13 @@
 <script src="/static/assets/js/bootstrapValidator.min.js"></script>
 
 <script>
-    $(function(){
-      
-    })
+		$(function(){
+            var siderbar = {{ .Sidebar }}
+            $("#left_sidebar").empty()
+            $("#left_sidebar").append(siderbar)
 
-</script>
- 
+            console.log("---siderbar = " + siderbar )
+		})
+
+	</script>
  {{end}}

@@ -7,6 +7,7 @@ import (
 	"net/http"
 	// "encoding/json"
 	"fmt"
+	"admin-server-golang/admin/untils"
 )
 
 type BaseController struct{
@@ -32,7 +33,6 @@ func(ctl *BaseController) DrawHTML(cc *gin.Context , html string , data gin.H){
 	data["BackendUser"] = ctl.backendUser
 
 	data["Sidebar"] = ctl.GetAdminMenus()
-
 	cc.HTML(http.StatusOK, html, data )
 }
 
@@ -65,25 +65,18 @@ func(ctl *BaseController) GetAdminMenus() (string){
 	html += `<ul class='nav nav-list' style='top: 0px;'>
 				<li class='active'>
 					<a href='/admin/index'>
-                	<i class='menu-icon fa fa-tachometer'></i>
-                	<span class='menu-text'> Dashboard </span>
+						<i class='menu-icon fa fa-tachometer'></i>
+						<span class='menu-text'> Dashboard </span>
            		 	</a>
             		<b class='arrow'></b>
-        		</li>`
+				</li>`
 
-	menus , _ := models.GetAllAdminMenus()
-	for _ , menu := range menus {
-
-		ctl.createHtml(html , menu)
-		if menu.Pid != 0 { // 存在子菜单
-
-		}
-	}
-
+	 
+	treegrid := untils.GetAdminTreeGrid() 
+	html = untils.Resource2Html(treegrid , html )
 	html += "</ul>"
 	return html
 }
 
-func(ctl *BaseController) createHtml(html  string, menu *models.AdminMenus ){
 
-}
+

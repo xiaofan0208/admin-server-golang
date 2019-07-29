@@ -19,7 +19,7 @@ type  AdminMenus struct {
 	Created     int64  `form:"created"  json:"created"`
 	Status      uint8  `form:"status"   json:"status"`  
 
-	Sons       []*AdminMenus  `form:"-" json:"-"`
+	Sons       []*AdminMenus  //`form:"-" json:"-"`
 }
 
 func(u AdminMenus) TableName() string {

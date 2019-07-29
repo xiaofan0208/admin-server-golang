@@ -47,3 +47,60 @@ func child(pid int , data  []*models.AdminMenus ) {
 		}
 	}
 }
+
+
+// 获取 tree 结构的菜单
+func GetAdminTreeGrid()  ([]*models.AdminMenus) {
+	menus , _ := models.GetAllAdminMenus()
+	treegrid := groupList2TreeGrid(menus)
+	return treegrid
+}
+
+func groupList2TreeGrid(list []*models.AdminMenus)  ([]*models.AdminMenus) {
+	result := make([]*models.AdminMenus ,0 )
+	for _ , item := range list  {
+		if item.Pid == 0 {
+			children := resourceAddSons(item, list, item.Sons )
+			item.Sons = children
+            result = append(result , item)
+		}
+	}
+	return result
+}
+
+func resourceAddSons(cur *models.AdminMenus , list , result []*models.AdminMenus) ([]*models.AdminMenus) {
+    for _ , item := range list {
+        if item.Pid == cur.Id {
+            children := resourceAddSons(item, list, item.Sons )
+            item.Sons = children
+            result = append(result, item)
+        }
+    }
+    return result
+}
+
+
+func  Resource2Html( treegrid  []*models.AdminMenus  ,   html  string )  (string){
+
+	for _ , item := range treegrid {
+		html += `<li class="">
+				<a href="#" class="dropdown-toggle">
+					<i class="` + item.Icon  + `"></i>
+					<span class="menu-text">`  +item.Name  + ` </span>
+				`
+		// 如果有子菜单则添加箭头
+		if  item.Sons != nil  {
+			html += `<b class="arrow fa fa-angle-down"></b>`
+		}
+		html += "</a>"
+
+		if item.Sons != nil {
+			html += `<ul class="submenu nav-hide" style="display: block;">`
+			html = Resource2Html(item.Sons , html)
+			html += `</ul>`
+		}
+
+		html += `</li>`
+	}
+	return html
+}
