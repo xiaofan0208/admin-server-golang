@@ -17,6 +17,7 @@ func InitRouters(router *gin.Engine) {
 
 	loginCtls := new(controllers.LoginController)
 	indexCtls := new(controllers.IndexController)
+	menuCtls := new(controllers.MenuAdminController)
 
     v1 := router.Group("/admin")
     {
@@ -29,7 +30,10 @@ func InitRouters(router *gin.Engine) {
 		
 		v1.GET("/index", indexCtls.Index )    // 首页
 		v1.GET("/logout", indexCtls.Logout )  // 注销
- 
+		
+		v1.GET("/menus", menuCtls.Index )  // 菜单
+		v1.POST("/menus/postList", menuCtls.PostList ) 
+
     }
 
 }
@@ -70,7 +74,7 @@ func InitMenus(){
 	// 角色管理
 	roleManage :=  &models.AdminMenus{ Name: "角色管理" , Type: models.BUTTON , Icon:"menu-icon fa fa-asterisk" , Url : "" }
 	// 菜单管理
-	menuManage :=  &models.AdminMenus{ Name: "菜单管理" , Type: models.BUTTON , Icon:"menu-icon fa fa-bar-chart-o" , Url : "" }
+	menuManage :=  &models.AdminMenus{ Name: "菜单管理" , Type: models.BUTTON , Icon:"menu-icon fa fa-bar-chart-o" , Url : "/admin/menus" }
 	permissionManage :=  &models.AdminMenus{ Name: "权限管理" , Type: models.BUTTON , Icon:"menu-icon fa fa-beer" , Url : "" }
 
 	systemManage.Sons = []*models.AdminMenus{ roleManage , menuManage , permissionManage}

@@ -10,3 +10,4 @@ func CheckErr(err error){
 		panic(err)
 	}
 }
+

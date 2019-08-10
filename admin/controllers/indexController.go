@@ -13,7 +13,7 @@ type IndexController struct {
 
 func (ctl *IndexController) Index(c *gin.Context){
 	data := gin.H{
-		"Title" : "Index Page",
+		"Title" : "Dashboard",
 	}
 	ctl.DrawHTML( c , "admin/home/index.html" , data)
 }  

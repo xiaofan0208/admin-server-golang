@@ -61,3 +61,16 @@ func DeleteAdminMenusByID(id int)  ( *AdminMenus , error ){
 	}
 	return &menu , nil 
 }
+
+
+func GetAllAdminMenusByQuery(query map[string]interface{} , filterMap map[string]interface{} , order map[string]string ,  limit int64 , offset int64) ([]*AdminMenus ,error ){
+	menus := []*AdminMenus{}
+	db.DB = GetAllDatasByQuery(db.DB , query , filterMap , order , limit ,offset )
+	if err := db.DB.Find(&menus).Error ; err != nil {
+		if err != gorm.ErrRecordNotFound {
+			helper.CheckErr(err)
+		}	
+		return nil, err
+	}
+	return menus , nil 
+}

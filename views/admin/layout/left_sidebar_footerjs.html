@@ -1,10 +1,12 @@
-{{define "Siderbar_footerjs"}}
-
+{{define "left_siderbar_footerjs"}}
+<script src="/static/assets/js/jquery-2.1.4.min.js"></script>
 <script src="/static/assets/js/bootstrapValidator.min.js"></script>
 
 <script>
     $(function(){
- 
+            var siderbar = {{ .Sidebar }}
+            $("#left_sidebar").empty()
+            $("#left_sidebar").append(siderbar)
     })
 
 </script>

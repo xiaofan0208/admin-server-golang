@@ -4,6 +4,7 @@ import (
 	"admin-server-golang/admin/models"
 	// "encoding/json"
 	// "fmt"
+	//"admin-server-golang/base"
 )
 
 var (
@@ -83,8 +84,15 @@ func resourceAddSons(cur *models.AdminMenus , list , result []*models.AdminMenus
 func  Resource2Html( treegrid  []*models.AdminMenus  ,   html  string )  (string){
 
 	for _ , item := range treegrid {
+		url := "#"
+		class := "dropdown-toggle"
+		if item.Type == models.BUTTON {   // 可点击按钮
+			url = item.Url
+			class = ""
+		}
+
 		html += `<li class="">
-				<a href="#" class="dropdown-toggle">
+				<a href='` + url + `'  class="` + class + `">
 					<i class="` + item.Icon  + `"></i>
 					<span class="menu-text">`  +item.Name  + ` </span>
 				`
